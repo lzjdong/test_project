@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		body{
+			width: 100%;
+			height: 2000px;
+		}
+	</style>
+</head>
+<body>
+    <script>
+        //节流
+			function throttle(fn, delay){
+				var prev = 0
+				return function(){
+					var context = this
+					var args = arguments
+					var now = Date.now()
+					if(now - prev > delay){
+						fn.apply(context, args)
+						prev = now
+					}
+				}
+			}
+
+			//防抖
+			function debounce(fn, delay){
+				var timeout = null
+				return function(){
+					var context = this
+					var args = arguments
+					if(timeout){
+						clearTimeout(timeout)
+					}
+					setTimeout(() => {
+						fn.apply(context, args)
+					}, delay);
+				}
+			}
+			function debounce2(fn,delay){
+				var vaild = true
+				return function() {
+					if(vaild){
+						console.log(vaild)
+					}else{
+						vaild = false
+						setTimeout(() => {
+							fn.apply(this, arguments)
+							vaild = true
+						}, delay);
+					}
+				}
+			}
+
+			function showtop(){
+				var top = document.body.scrollTop || document.documentElement.scrollTop
+				console.log(top)
+			}
+			window.onscroll = throttle(showtop, 1000)
+    </script>
+</body>
+</html>

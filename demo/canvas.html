@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="gbk">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    ul{
+        list-style-type: none;
+    }
+    div#box{
+        width: 374px;
+        height: 50px;
+    }
+    #box>div{
+        width: 100px;
+        height: 50px;
+        float: left;
+        margin-right: 10px;
+    }
+    #box div:nth-child(1){
+        border-bottom: 1px solid #000;
+    }
+    #box div:nth-child(2){
+        border-bottom: 2px solid #000;
+    }
+    #box div:nth-child(3){
+        border-bottom: 4px solid #000;
+    }
+    #box div:nth-child(4){
+        width: 20px;
+        height: 20px;
+        border: 1px solid #000;
+        text-indent: -9999px;
+    }
+    #eraser{
+        /* display: none; */
+        text-indent: -9999px;
+        width: 19px;
+        height: 19px;
+        border: 1px solid #000;
+        position:absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+</style>
+<body>
+    <input type="search" name="" id="">
+    <input type="color" name="" id="color">
+    <input type="range" name="points" min="1" max="10" value="1" id="pointsw">
+
+    <div id="box">
+        <div>1</div>
+        <div>2</div>
+        <div>4</div>
+        <div title="橡皮檫">橡皮檫</div>                                                    
+    </div>
+    <canvas id="mycanvas" width="1000" height="500" style="border: 1px solid #000;">
+        您的版本过低
+    </canvas>
+    <script>
+        var canvas = document.getElementById('mycanvas')
+            ct = canvas.getContext('2d')
+            ocolor = document.getElementById('color')
+            lineW = document.getElementById('box')
+            pointsw = document.getElementById('pointsw')
+            w = 1
+            x = 0
+            y = 0
+            color = ''
+            isDraw = false
+            isEraser = true
+
+            //获取颜色
+            ocolor.onchange = function(){color = this.value}
+            pointsw.onchange = function(){w = this.value;isDraw = true;isEraser = false;showEraser()}
+            //线条宽度
+            lineW.children[0].onclick = function(){w = 1;isDraw = true;isEraser = false;showEraser()}
+            lineW.children[1].onclick = function(){w = 2;isDraw = true;isEraser = false;showEraser()}
+            lineW.children[2].onclick = function(){w = 4;isDraw = true;isEraser = false;showEraser()}
+            lineW.children[3].onclick = function(){
+                isDraw = false
+                showEraser()
+            }
+
+            function showEraser(){
+                if(isEraser){
+                    canvas.style.cursor = 'url(./img/cursor.cur),crosshair' //鼠标点击显示橡皮檫
+                    isEraser = false
+                }else{
+                    canvas.style.cursor = 'default'
+                    isEraser = true
+                }
+            }
+
+            
+
+            canvas.onmousedown = function(e){
+                // console.log(e)
+                x = e.offsetX
+                y = e.offsetY
+                ct.beginPath()
+                ct.moveTo(x,y)
+                canvas.onmousemove = function(e){
+                    if(isDraw){
+                        x = e.offsetX
+                        y = e.offsetY
+                        ct.lineTo(e.offsetX,e.offsetY)
+                        ct.strokeStyle = color
+                        ct.lineWidth = w
+                        ct.stroke()
+                    }else{
+                        x = e.offsetX
+                        y = e.offsetY
+                        ct.clearRect(x,y,20,20)
+                        ct.stroke()
+                    }
+                }
+            }
+            canvas.onmouseup = function(){
+                canvas.onmousemove = function(){}
+            }
+    </script>
+</body>
+</html>

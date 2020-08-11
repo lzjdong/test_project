@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="gbk">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="button" value="点击实验localStorage" onclick="changeLoclCount()">
+    <input type="button" value="removeLocalcount" onclick="removeLocalCount()">
+    <div id="localcount"></div>
+    <input type="button" value="点击实验sessionStorage" onclick="changeSessCount()">
+    <input type="button" value="removesessioncount" onclick="removeSessionCount()">
+    <div id="sessioncount"></div>
+
+    <script>
+        function changeLoclCount(){
+            if(typeof(Storage) !== undefined){
+                if(localStorage.lcount){
+                    localStorage.lcount = Number(localStorage.lcount) + 1 
+                }else{
+                    localStorage.lcount = 1
+                }
+                document.getElementById('localcount').innerHTML = '(localStorage)你点击了：' + localStorage.lcount
+            }else{
+                alert('对不起你的浏览器版本过低')
+            }
+        }
+
+        function removeLocalCount(){
+            localStorage.removeItem('lcount')
+        }
+        
+        function changeSessCount(){
+            if(typeof(Storage) !== undefined){
+                if(sessionStorage.scount){
+                    sessionStorage.scount = Number(sessionStorage.scount) + 1 
+                }else{
+                    sessionStorage.scount = 1
+                }
+                document.getElementById('sessioncount').innerHTML = '(sessionStorage)你点击了：' + sessionStorage.scount
+            }else{
+                alert('对不起你的浏览器版本过低')
+            }
+        }
+
+        function removeSessionCount(){
+            sessionStorage.removeItem('scount')
+        }
+    </script>
+</body>
+</html>
