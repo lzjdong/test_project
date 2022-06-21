@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/utils/request';
 const pathMap = {
   userUpdatePwdPath: '/api/user/updatePwd/',
   personInfoPath: '/api/user/personInfo/',
@@ -9,15 +9,15 @@ const pathMap = {
   createPath: '/api/user/create',
   updatePath: '/api/user/update',
   editPasswordPath: '/api/user/adminUpdatePwd',
-  editStatusPath: '/api/user/updateStatus'
-}
+  editStatusPath: '/api/user/updateStatus',
+};
 export function userLists(page, size, data) {
   return request({
     url: pathMap.queryPath + page + '/' + size,
     method: 'post',
     data,
-    loading: true
-  })
+    loading: true,
+  });
 }
 
 export function userListsWithOutPage(data) {
@@ -25,95 +25,95 @@ export function userListsWithOutPage(data) {
     url: pathMap.queryWithOutPagePath,
     method: 'post',
     data,
-    loading: true
-  })
+    loading: true,
+  });
 }
 
 export const addUser = (data) => {
   return request({
     url: pathMap.createPath,
     method: 'post',
-    data
-  })
-}
+    data,
+  });
+};
 
 export const editUser = (data) => {
   return request({
     url: pathMap.updatePath,
     method: 'post',
-    data
-  })
-}
+    data,
+  });
+};
 
 export const delUser = (userId) => {
   return request({
     url: pathMap.deletePath + userId,
-    method: 'post'
-  })
-}
+    method: 'post',
+  });
+};
 
 export const editPassword = (data) => {
   return request({
     url: pathMap.editPasswordPath,
     method: 'post',
-    data
-  })
-}
+    data,
+  });
+};
 
 export const editStatus = (data) => {
   return request({
     url: pathMap.editStatusPath,
     method: 'post',
-    data
-  })
-}
+    data,
+  });
+};
 
 export const personInfo = () => {
   return request({
     url: pathMap.personInfoPath,
-    method: 'post'
-  })
-}
+    method: 'post',
+  });
+};
 
 export const updatePerson = (data) => {
   return request({
     url: pathMap.piupdatePath,
     method: 'post',
-    data
-  })
-}
+    data,
+  });
+};
 
 export const updatePersonPwd = (data) => {
   return request({
     url: pathMap.userUpdatePwdPath,
     method: 'post',
-    data
-  })
-}
+    data,
+  });
+};
 
 export const allRoles = () => {
   return request({
     url: '/api/user/all',
     method: 'post',
-    loading: true
-  })
-}
+    loading: true,
+  });
+};
 
 export function roleGrid(pageIndex, pageSize, data) {
   return request({
     url: '/api/user/roleGrid/' + pageIndex + '/' + pageSize,
     method: 'post',
     data,
-    loading: true
-  })
+    loading: true,
+  });
 }
 
 export function ldapUsers(data) {
   return request({
     url: '/plugin/ldap/users',
     method: 'post',
-    loading: true
-  })
+    loading: true,
+  });
 }
 
 export function saveLdapUser(data) {
@@ -121,16 +121,54 @@ export function saveLdapUser(data) {
     url: '/api/user/sync',
     method: 'post',
     loading: true,
-    data
-  })
+    data,
+  });
 }
 
 export function existLdapUsers() {
   return request({
     url: '/api/user/existLdapUsers',
     method: 'post',
-    loading: false
-  })
+    loading: false,
+  });
 }
 
-export default { editPassword, delUser, editUser, addUser, userLists, editStatus, personInfo, updatePerson, updatePersonPwd, allRoles, roleGrid, ldapUsers, saveLdapUser, existLdapUsers }
+export const getSystemUserData = () =>
+  request({
+    url: '/api/user/getUserInfo',
+    method: 'get',
+  });
+
+export const logout = () =>
+  request({
+    baseURL: '/auth/realms/fast',
+    url: '/protocol/openid-connect/logout',
+    method: 'get',
+  });
+
+export const getLoginLog = (params) =>
+  request({
+    baseURL: '/one-infrastructure-api',
+    url: '/api/v1/admin/login-logs',
+    method: 'get',
+    params,
+  });
+
+export default {
+  editPassword,
+  delUser,
+  editUser,
+  addUser,
+  userLists,
+  editStatus,
+  personInfo,
+  updatePerson,
+  updatePersonPwd,
+  allRoles,
+  roleGrid,
+  ldapUsers,
+  saveLdapUser,
+  existLdapUsers,
+  getSystemUserData,
+  logout,
+};

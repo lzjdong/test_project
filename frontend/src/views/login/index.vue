@@ -5,25 +5,44 @@
         <el-col :span="12">
           <el-form ref="loginForm" :model="loginForm" :rules="loginRules" size="default">
             <div class="login-logo">
-              <svg-icon v-if="!loginLogoUrl && axiosFinished" icon-class="DataEase" custom-class="login-logo-icon" />
-              <img v-if="loginLogoUrl && axiosFinished" :src="loginLogoUrl" alt="">
+              <svg-icon
+                v-if="!loginLogoUrl && axiosFinished"
+                icon-class="DataEase"
+                custom-class="login-logo-icon"
+              />
+              <img v-if="loginLogoUrl && axiosFinished" :src="loginLogoUrl" alt="" />
             </div>
-            <div v-if="uiInfo && uiInfo['ui.loginTitle'] && uiInfo['ui.loginTitle'].paramValue" class="login-welcome">
+            <div
+              v-if="uiInfo && uiInfo['ui.loginTitle'] && uiInfo['ui.loginTitle'].paramValue"
+              class="login-welcome"
+            >
               {{ uiInfo['ui.loginTitle'].paramValue }}
             </div>
             <div v-else class="login-welcome">
-              {{ $t('login.welcome') + (uiInfo && uiInfo['ui.title'] && uiInfo['ui.title'].paramValue || ' DataEase') }}
+              {{
+                $t('login.welcome') +
+                ((uiInfo && uiInfo['ui.title'] && uiInfo['ui.title'].paramValue) || ' DataEase')
+              }}
             </div>
             <div class="login-form">
               <el-form-item v-if="loginTypes.length > 1">
-                <el-radio-group v-if="loginTypes.length > 1" v-model="loginForm.loginType" @change="changeLoginType">
+                <el-radio-group
+                  v-if="loginTypes.length > 1"
+                  v-model="loginForm.loginType"
+                  @change="changeLoginType"
+                >
                   <el-radio :label="0" size="mini">{{ $t('login.default_login') }}</el-radio>
                   <el-radio v-if="loginTypes.includes(1)" :label="1" size="mini">LDAP</el-radio>
                   <el-radio v-if="loginTypes.includes(2)" :label="2" size="mini">OIDC</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item prop="username">
-                <el-input v-model="loginForm.username" placeholder="ID" autofocus :disabled="loginTypes.includes(2) && loginForm.loginType === 2" />
+                <el-input
+                  v-model="loginForm.username"
+                  placeholder="ID"
+                  autofocus
+                  :disabled="loginTypes.includes(2) && loginForm.loginType === 2"
+                />
               </el-form-item>
               <el-form-item prop="password">
                 <el-input
@@ -39,10 +58,19 @@
               </el-form-item>
             </div>
             <div class="login-btn">
-              <el-button type="primary" class="submit" size="default" :disabled="loginTypes.includes(2) && loginForm.loginType === 2" @click.native.prevent="handleLogin">
+              <el-button
+                type="primary"
+                class="submit"
+                size="default"
+                :disabled="loginTypes.includes(2) && loginForm.loginType === 2"
+                @click.native.prevent="handleLogin"
+              >
                 {{ $t('commons.login') }}
               </el-button>
-              <div v-if="uiInfo && uiInfo['ui.demo.tips'] && uiInfo['ui.demo.tips'].paramValue" class="demo-tips">
+              <div
+                v-if="uiInfo && uiInfo['ui.demo.tips'] && uiInfo['ui.demo.tips'].paramValue"
+                class="demo-tips"
+              >
                 {{ uiInfo['ui.demo.tips'].paramValue }}
               </div>
             </div>
@@ -53,23 +81,32 @@
         </el-col>
         <el-col v-loading="!axiosFinished" :span="12">
           <div v-if="!loginImageUrl && axiosFinished" class="login-image" />
-          <div v-if="loginImageUrl && axiosFinished" class="login-image-de" :style="{background:'url(' + loginImageUrl + ') no-repeat', 'backgroundSize':'contain'}" />
+          <div
+            v-if="loginImageUrl && axiosFinished"
+            class="login-image-de"
+            :style="{
+              background: 'url(' + loginImageUrl + ') no-repeat',
+              backgroundSize: 'contain',
+            }"
+          />
         </el-col>
       </el-row>
     </div>
-    <plugin-com v-if="loginTypes.includes(2) && loginForm.loginType === 2" ref="SSOComponent" component-name="SSOComponent" />
-
+    <plugin-com
+      v-if="loginTypes.includes(2) && loginForm.loginType === 2"
+      ref="SSOComponent"
+      component-name="SSOComponent"
+    />
   </div>
 </template>
 
 <script>
-
-import { encrypt } from '@/utils/rsaEncrypt'
-import { ldapStatus, oidcStatus, getPublicKey, pluginLoaded, defaultLoginType } from '@/api/user'
-import { getSysUI } from '@/utils/auth'
-import { initTheme } from '@/utils/ThemeUtil'
-import PluginCom from '@/views/system/plugin/PluginCom'
-import Cookies from 'js-cookie'
+import { encrypt } from '@/utils/rsaEncrypt';
+import { ldapStatus, oidcStatus, getPublicKey, pluginLoaded, defaultLoginType } from '@/api/user';
+import { getSysUI } from '@/utils/auth';
+import { initTheme } from '@/utils/ThemeUtil';
+import PluginCom from '@/views/system/plugin/PluginCom';
+// import Cookies from 'js-cookie'
 export default {
   name: 'Login',
   components: { PluginCom },
@@ -78,11 +115,11 @@ export default {
       loginForm: {
         loginType: 0,
         username: '',
-        password: ''
+        password: '',
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', message: this.$t('commons.input_id') }],
-        password: [{ required: true, trigger: 'blur', message: this.$t('commons.input_pwd') }]
+        password: [{ required: true, trigger: 'blur', message: this.$t('commons.input_pwd') }],
       },
       loading: false,
       passwordType: 'password',
@@ -94,63 +131,60 @@ export default {
       loginTypes: [0],
       isPluginLoaded: false,
       contentShow: false,
-      clearLocalStorage: [
-        'panel-main-tree',
-        'panel-default-tree',
-        'chart-tree',
-        'dataset-tree'
-      ],
-      defaultType: 0
-    }
+      clearLocalStorage: ['panel-main-tree', 'panel-default-tree', 'chart-tree', 'dataset-tree'],
+      defaultType: 0,
+    };
   },
   computed: {
     msg() {
-      return this.$store.state.user.loginMsg
-    }
+      return this.$store.state.user.loginMsg;
+    },
   },
   watch: {
     $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+      handler: function (route) {
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   beforeCreate() {
-    pluginLoaded().then(res => {
-      this.isPluginLoaded = res.success && res.data
-      this.isPluginLoaded && initTheme()
-      this.contentShow = true
-    }).catch(() => {
-      this.contentShow = true
-    })
+    pluginLoaded()
+      .then((res) => {
+        this.isPluginLoaded = res.success && res.data;
+        this.isPluginLoaded && initTheme();
+        this.contentShow = true;
+      })
+      .catch(() => {
+        this.contentShow = true;
+      });
 
-    ldapStatus().then(res => {
+    ldapStatus().then((res) => {
       if (res.success && res.data) {
-        this.loginTypes.push(1)
+        this.loginTypes.push(1);
       }
-      this.setDefaultType()
-    })
+      this.setDefaultType();
+    });
 
-    oidcStatus().then(res => {
+    oidcStatus().then((res) => {
       if (res.success && res.data) {
-        this.loginTypes.push(2)
+        this.loginTypes.push(2);
       }
-      this.setDefaultType()
-    })
-    getPublicKey().then(res => {
+      this.setDefaultType();
+    });
+    getPublicKey().then((res) => {
       if (res.success && res.data) {
         // 保存公钥
-        localStorage.setItem('publicKey', res.data)
+        localStorage.setItem('publicKey', res.data);
       }
-    })
-    defaultLoginType().then(res => {
-      console.log('default login type is :' + res.data)
+    });
+    defaultLoginType().then((res) => {
+      console.log('default login type is :' + res.data);
       if (res && res.success) {
-        this.defaultType = res.data
+        this.defaultType = res.data;
       }
-      this.setDefaultType()
-    })
+      this.setDefaultType();
+    });
   },
 
   mounted() {
@@ -158,42 +192,45 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('user/getUI').then(() => {
-      // const uiLists = this.$store.state.user.uiInfo
-      // this.uiInfo = format(uiLists)
-      this.axiosFinished = true
-      this.showLoginImage()
-    }).catch(err => {
-      console.error(err)
-    })
-    let msg = Cookies.get('OidcError')
-    if (msg) {
-      msg = msg.replace('+', '')
-      this.$error(msg)
-    }
-    this.clearOidcMsg()
+    this.$store
+      .dispatch('user/getUI')
+      .then(() => {
+        // const uiLists = this.$store.state.user.uiInfo
+        // this.uiInfo = format(uiLists)
+        this.axiosFinished = true;
+        this.showLoginImage();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    // let msg = Cookies.get('OidcError')
+    // if (msg) {
+    //   msg = msg.replace('+', '')
+    //   this.$error(msg)
+    // }
+    this.clearOidcMsg();
   },
 
   methods: {
     setDefaultType() {
       if (this.loginTypes.includes(this.defaultType)) {
-        this.loginForm.loginType = this.defaultType
+        this.loginForm.loginType = this.defaultType;
         this.$nextTick(() => {
-          this.changeLoginType(this.loginForm.loginType)
-        })
+          this.changeLoginType(this.loginForm.loginType);
+        });
       }
     },
     clearOidcMsg() {
-      Cookies.remove('OidcError')
-      Cookies.remove('IdToken')
+      // Cookies.remove('OidcError')
+      // Cookies.remove('IdToken')
     },
     showLoginImage() {
-      this.uiInfo = getSysUI()
+      this.uiInfo = getSysUI();
       if (this.uiInfo['ui.loginImage'] && this.uiInfo['ui.loginImage'].paramValue) {
-        this.loginImageUrl = '/system/ui/image/' + this.uiInfo['ui.loginImage'].paramValue
+        this.loginImageUrl = '/system/ui/image/' + this.uiInfo['ui.loginImage'].paramValue;
       }
       if (this.uiInfo['ui.loginLogo'] && this.uiInfo['ui.loginLogo'].paramValue) {
-        this.loginLogoUrl = '/system/ui/image/' + this.uiInfo['ui.loginLogo'].paramValue
+        this.loginLogoUrl = '/system/ui/image/' + this.uiInfo['ui.loginLogo'].paramValue;
       }
       /* if (this.uiInfo['ui.themeStr'] && this.uiInfo['ui.themeStr'].paramValue) {
         if (this.uiInfo['ui.themeStr'].paramValue === 'dark') {
@@ -204,46 +241,47 @@ export default {
       } */
     },
     initCache() {
-      this.clearLocalStorage.forEach(item => {
-        localStorage.removeItem(item)
-      })
+      this.clearLocalStorage.forEach((item) => {
+        localStorage.removeItem(item);
+      });
     },
 
     handleLogin() {
-      this.initCache()
-      this.clearOidcMsg()
-      this.$refs.loginForm.validate(valid => {
+      this.initCache();
+      this.clearOidcMsg();
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true
+          this.loading = true;
           const user = {
             username: encrypt(this.loginForm.username),
             password: encrypt(this.loginForm.password),
-            loginType: this.loginForm.loginType
-          }
-          this.$store.dispatch('user/login', user).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+            loginType: this.loginForm.loginType,
+          };
+          this.$store
+            .dispatch('user/login', user)
+            .then(() => {
+              this.$router.push({ path: this.redirect || '/' });
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
-          return false
+          return false;
         }
-      })
+      });
     },
     changeLoginType(val) {
-      if (val !== 2) return
-      this.clearOidcMsg()
-      this.$nextTick(() => {
-
-      })
-    }
-  }
-}
+      if (val !== 2) return;
+      this.clearOidcMsg();
+      this.$nextTick(() => {});
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import "../../styles/variables";
+@import '../../styles/variables';
 
 @mixin login-center {
   display: flex;
@@ -261,7 +299,7 @@ export default {
   min-width: 900px;
   width: 1280px;
   height: 520px;
-  background-color: var(--ContentBG, #FFFFFF);
+  background-color: var(--ContentBG, #ffffff);
   @media only screen and (max-width: 1280px) {
     width: 900px;
     height: 380px;
@@ -273,7 +311,7 @@ export default {
     @media only screen and (max-width: 1280px) {
       margin-top: 20px;
     }
-    img{
+    img {
       /*width: 240px;*/
       width: auto;
       max-height: 60px;

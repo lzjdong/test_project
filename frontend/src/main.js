@@ -1,58 +1,61 @@
-import Vue from 'vue'
-import Cookies from 'js-cookie'
-import '@/styles/index.scss' // global css
-import ElementUI from 'element-ui'
-import Vuetify from 'vuetify'
-import Fit2CloudUI from 'fit2cloud-ui'
+import Vue from 'vue';
+// import Cookies from 'js-cookie';
+import '@/styles/index.scss'; // global css
+import ElementUI from 'element-ui';
+import Vuetify from 'vuetify';
+import Fit2CloudUI from 'fit2cloud-ui';
 
-import i18n from './lang' // internationalization
-import App from './App'
-import store from './store'
-import router from './router'
-import message from './utils/message'
-import '@/icons' // icon
-import '@/permission' // permission control
-import api from '@/api/index.js'
-import filter from '@/filter/filter'
-import directives from './directive'
-import VueClipboard from 'vue-clipboard2'
-import widgets from '@/components/widget'
-import Treeselect from '@riophae/vue-treeselect'
-import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-import './utils/dialog'
-import DeComplexInput from '@/components/business/condition-table/DeComplexInput'
-import DeComplexSelect from '@/components/business/condition-table/DeComplexSelect'
-import '@/components/canvas/custom-component' // 注册自定义组件
+import i18n from './lang'; // internationalization
+import App from './App';
+import store from './store';
+import router from './router';
+import message from './utils/message';
+import '@/icons'; // icon
+import initPermission from '@/permission'; // permission control
+import api from '@/api/index.js';
+import filter from '@/filter/filter';
+import directives from './directive';
+import VueClipboard from 'vue-clipboard2';
+import widgets from '@/components/widget';
+import Treeselect from '@riophae/vue-treeselect';
+import '@riophae/vue-treeselect/dist/vue-treeselect.css';
+import './utils/dialog';
+import DeComplexInput from '@/components/business/condition-table/DeComplexInput';
+import DeComplexSelect from '@/components/business/condition-table/DeComplexSelect';
+import '@/components/canvas/custom-component'; // 注册自定义组件
 
-import '@/utils/DateUtil'
-import draggable from 'vuedraggable'
-import deWebsocket from '@/websocket'
-import { GaodeMap } from '@antv/l7-maps'
-Vue.config.productionTip = false
-Vue.use(VueClipboard)
-Vue.use(widgets)
-Vue.component('draggable', draggable)
-Vue.prototype.$api = api
+import '@/utils/DateUtil';
+import draggable from 'vuedraggable';
+// import deWebsocket from '@/websocket'
+import { GaodeMap } from '@antv/l7-maps';
 
-import * as echarts from 'echarts'
+import Keycloak from 'keycloak-js';
 
-Vue.prototype.$echarts = echarts
-Vue.prototype.$gaodeMap = GaodeMap
+Vue.config.productionTip = false;
+Vue.use(VueClipboard);
+Vue.use(widgets);
+Vue.component('draggable', draggable);
+Vue.prototype.$api = api;
 
-import UmyUi from 'umy-ui'
-Vue.use(UmyUi)
+import * as echarts from 'echarts';
 
-import vcolorpicker from 'vcolorpicker'
-Vue.use(vcolorpicker)
+Vue.prototype.$echarts = echarts;
+Vue.prototype.$gaodeMap = GaodeMap;
+
+import UmyUi from 'umy-ui';
+Vue.use(UmyUi);
+
+import vcolorpicker from 'vcolorpicker';
+Vue.use(vcolorpicker);
 
 // 全屏插件
-import fullscreen from 'vue-fullscreen'
-Vue.use(fullscreen)
+import fullscreen from 'vue-fullscreen';
+Vue.use(fullscreen);
 
-import VueFriendlyIframe from 'vue-friendly-iframe'
+import VueFriendlyIframe from 'vue-friendly-iframe';
 
-Vue.use(VueFriendlyIframe)
-Vue.use(Vuetify)
+Vue.use(VueFriendlyIframe);
+Vue.use(Vuetify);
 // import TEditor from '@/components/Tinymce/index.vue'
 // Vue.component('TEditor', TEditor)
 
@@ -65,63 +68,112 @@ Vue.use(Vuetify)
  * please remove it before going online ! ! !
  */
 if (process.env.NODE_ENV === 'production') {
-//   const { mockXHR } = require('../mock')
-//   mockXHR()
+  //   const { mockXHR } = require('../mock')
+  //   mockXHR()
 }
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 Vue.use(ElementUI, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
-  i18n: (key, value) => i18n.t(key, value)
-})
+  // size: Cookies.get('size') || 'medium', // set element-ui default size
+  size: 'medium', // set element-ui default size
+  i18n: (key, value) => i18n.t(key, value),
+});
 Vue.use(Fit2CloudUI, {
-  i18n: (key, value) => i18n.t(key, value)
-})
+  i18n: (key, value) => i18n.t(key, value),
+});
 // Vue.use(VueAxios, axios)
-Vue.use(filter)
-Vue.use(directives)
-Vue.use(message)
-Vue.component('Treeselect', Treeselect)
-Vue.component('DeComplexInput', DeComplexInput)
-Vue.component('DeComplexSelect', DeComplexSelect)
-Vue.config.productionTip = false
+Vue.use(filter);
+Vue.use(directives);
+Vue.use(message);
+Vue.component('Treeselect', Treeselect);
+Vue.component('DeComplexInput', DeComplexInput);
+Vue.component('DeComplexSelect', DeComplexSelect);
+Vue.config.productionTip = false;
 
-import vueToPdf from 'vue-to-pdf'
-Vue.use(vueToPdf)
+import vueToPdf from 'vue-to-pdf';
+Vue.use(vueToPdf);
 
-import VueVideoPlayer from 'vue-video-player'
-import 'video.js/dist/video-js.css'
-Vue.use(VueVideoPlayer)
+import VueVideoPlayer from 'vue-video-player';
+import 'video.js/dist/video-js.css';
+Vue.use(VueVideoPlayer);
 
 // 控制标签宽高成比例的指令
-import proportion from 'vue-proportion-directive'
-Vue.use(proportion)
+import proportion from 'vue-proportion-directive';
+Vue.use(proportion);
 
-Vue.prototype.hasDataPermission = function(pTarget, pSource) {
-  if (this.$store.state.user.user.isAdmin) {
-    return true
-  }
-  if (pSource && pTarget) {
-    return pSource.indexOf(pTarget) > -1
-  }
-  return false
-}
+Vue.prototype.hasDataPermission = function (pTarget, pSource) {
+  // if (this.$store.state.user.user.isAdmin) {
+  //   return true;
+  // }
+  // if (pSource && pTarget) {
+  //   return pSource.indexOf(pTarget) > -1;
+  // }
+  // return false;
+  return true;
+};
 
-Vue.prototype.checkPermission = function(pers) {
-  const permissions = store.getters.permissions
-  const hasPermission = pers.every(needP => {
-    const result = permissions.includes(needP)
-    return result
+Vue.prototype.checkPermission = function (pers) {
+  const permissions = store.getters.permissions;
+  const hasPermission = pers.every((needP) => {
+    const result = permissions.includes(needP);
+    // return result;
+    return true;
+  });
+  return hasPermission;
+};
+// Vue.use(deWebsocket)
+// new Vue({
+//   router,
+//   store,
+//   i18n,
+//   render: (h) => h(App),
+// }).$mount('#app');
+
+const KC = new Keycloak('keycloak.json');
+
+KC.init({
+  onLoad: 'login-required',
+  promiseType: 'native',
+})
+  .success((authenticated) => {
+    if (!authenticated) {
+      console.log('==reload==');
+      window.location.reload();
+    } else {
+      Vue.prototype.$kc = KC;
+      // console.log(KC);
+      store.commit('user/SET_AUTH', KC);
+    }
+
+    initPermission();
+    new Vue({
+      router,
+      store,
+      i18n,
+      render: (h) => h(App),
+    }).$mount('#app');
+
+    setInterval(() => {
+      KC.updateToken(70)
+        .success((refreshed) => {
+          console.log(refreshed);
+          if (refreshed) {
+            console.log('Token refreshed');
+          } else {
+            console.log(
+              `Token not refreshed, valid for ${Math.round(
+                KC.tokenParsed.exp + KC.timeSkew - new Date().getTime() / 1000
+              )} seconds`
+            );
+          }
+        })
+        .error((error) => {
+          console.log('Failed to refresh token', error);
+        });
+    }, 60000);
   })
-  return hasPermission
-}
-Vue.use(deWebsocket)
-new Vue({
-
-  router,
-  store,
-  i18n,
-  render: h => h(App)
-}).$mount('#app')
+  .error((error) => {
+    console.log('Authenticated Failed', error);
+  });

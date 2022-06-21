@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 export default {
   name: 'DeComplexOperator',
   model: {
     prop: 'operator',
-    event: 'change'
+    event: 'change',
   },
   props: {
     // eslint-disable-next-line vue/require-default-prop
@@ -39,32 +39,31 @@ export default {
     operators: Array,
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
-      value: this.operator
-    }
+      value: this.operator,
+    };
   },
   computed: {
     configSize() {
-      return Cookies.get('size') || 'medium'
-    }
+      // return Cookies.get('size') || 'medium'
+      return 'medium';
+    },
   },
   watch: {
-    operator: function(v) {
-      this.value = v
-    }
+    operator: function (v) {
+      this.value = v;
+    },
   },
   methods: {
     change(value) {
-      this.$emit('change', value)
-    }
-  }
-}
+      this.$emit('change', value);
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

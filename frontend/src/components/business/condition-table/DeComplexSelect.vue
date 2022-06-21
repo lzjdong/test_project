@@ -1,5 +1,11 @@
 <template>
-  <de-complex-operator v-model="operator" :label="label" :operators="operators" :size="configSize" disabled>
+  <de-complex-operator
+    v-model="operator"
+    :label="label"
+    :operators="operators"
+    :size="configSize"
+    disabled
+  >
     <el-select
       v-model="value"
       class="fu-complex-select"
@@ -14,28 +20,30 @@
 </template>
 
 <script>
-import { ComplexCondition } from 'fit2cloud-ui/src/components/search-bar/model'
-import DeComplexOperator from './DeComplexOperator.vue'
-import Cookies from 'js-cookie'
+import { ComplexCondition } from 'fit2cloud-ui/src/components/search-bar/model';
+import DeComplexOperator from './DeComplexOperator.vue';
+// import Cookies from 'js-cookie'
 
 const MULTIPLE_OPERATORS = [
   {
     label: 'fu.search_bar.in',
-    value: 'in'
-  }, {
+    value: 'in',
+  },
+  {
     label: 'fu.search_bar.not_in',
-    value: 'not in'
-  }
-]
+    value: 'not in',
+  },
+];
 const OPERATORS = [
   {
     label: 'fu.search_bar.eq',
-    value: 'eq'
-  }, {
+    value: 'eq',
+  },
+  {
     label: 'fu.search_bar.ne',
-    value: 'ne'
-  }
-]
+    value: 'ne',
+  },
+];
 
 export default {
   name: 'DeComplexSelect',
@@ -48,54 +56,55 @@ export default {
     // eslint-disable-next-line vue/require-default-prop
     defaultOperator: String,
     // eslint-disable-next-line vue/require-default-prop
-    options: Array
+    options: Array,
   },
   data() {
     return {
       operator: '',
-      value: ''
-    }
+      value: '',
+    };
   },
   computed: {
     isMultiple() {
-      const { multiple } = this.$attrs
-      return multiple !== undefined && multiple !== false
+      const { multiple } = this.$attrs;
+      return multiple !== undefined && multiple !== false;
     },
     operators() {
-      return this.isMultiple ? MULTIPLE_OPERATORS : OPERATORS
+      return this.isMultiple ? MULTIPLE_OPERATORS : OPERATORS;
     },
     valueLabel() {
       if (this.isMultiple) {
-        const values = []
-        this.value.forEach(v => {
-          values.push(this.getValueLabel(v))
-        })
-        return values.join(', ')
+        const values = [];
+        this.value.forEach((v) => {
+          values.push(this.getValueLabel(v));
+        });
+        return values.join(', ');
       }
-      return this.getValueLabel(this.value)
+      return this.getValueLabel(this.value);
     },
     configSize() {
-      return Cookies.get('size') || 'medium'
-    }
+      // return Cookies.get('size') || 'medium'
+      return 'medium';
+    },
   },
   methods: {
     getValueLabel(value) {
       for (const o of this.options) {
         if (o.value === value) {
-          return o.label
+          return o.label;
         }
       }
-      return value
+      return value;
     },
     getCondition() {
-      if (!this.value) return
-      const { field, label, operator, operatorLabel, value, valueLabel } = this
-      return new ComplexCondition({ field, label, operator, operatorLabel, value, valueLabel })
+      if (!this.value) return;
+      const { field, label, operator, operatorLabel, value, valueLabel } = this;
+      return new ComplexCondition({ field, label, operator, operatorLabel, value, valueLabel });
     },
     init() {
-      this.operator = this.defaultOperator || this.operators[0].value
-      this.value = ''
-    }
-  }
-}
+      this.operator = this.defaultOperator || this.operators[0].value;
+      this.value = '';
+    },
+  },
+};
 </script>

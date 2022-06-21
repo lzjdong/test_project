@@ -1,0 +1,11 @@
+{
+  "realm": "fast",
+  "auth-server-url": "http://192.168.3.234/auth",
+  "ssl-required": "external",
+  "resource": "admin-client",
+  "credentials": {
+    "secret": "3b8ac077-e9fc-4f59-a984-67a9526961ba"
+  },
+  "use-resource-role-mappings": true,
+  "policy-enforcer": {}
+}

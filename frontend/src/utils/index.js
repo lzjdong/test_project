@@ -1,65 +1,65 @@
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 export function timeSection(date, type) {
   if (!date) {
-    return null
+    return null;
   }
   if (!(date instanceof Date)) {
-    date = new Date(date)
+    date = new Date(date);
   }
-  const timeRanger = new Array(2)
+  const timeRanger = new Array(2);
 
-  date.setHours(0)
-  date.setMinutes(0)
-  date.setSeconds(0)
-  date.setMilliseconds(0)
-  const end = new Date(date)
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
+  const end = new Date(date);
   if (type === 'year') {
-    date.setDate(1)
-    date.setMonth(0)
-    end.setFullYear(date.getFullYear() + 1)
-    timeRanger[1] = end.getTime() - 1
+    date.setDate(1);
+    date.setMonth(0);
+    end.setFullYear(date.getFullYear() + 1);
+    timeRanger[1] = end.getTime() - 1;
   }
   if (type === 'month') {
-    date.setDate(1)
-    const currentMonth = date.getMonth()
+    date.setDate(1);
+    const currentMonth = date.getMonth();
     if (currentMonth === 11) {
-      end.setFullYear(date.getFullYear() + 1)
-      end.setMonth(0)
+      end.setFullYear(date.getFullYear() + 1);
+      end.setMonth(0);
     } else {
-      end.setMonth(date.getMonth() + 1)
+      end.setMonth(date.getMonth() + 1);
     }
-    timeRanger[1] = end.getTime() - 1
+    timeRanger[1] = end.getTime() - 1;
   }
 
   if (type === 'date') {
-    end.setHours(23)
-    end.setMinutes(59)
-    end.setSeconds(59)
-    end.setMilliseconds(999)
-    timeRanger[1] = end.getTime()
+    end.setHours(23);
+    end.setMinutes(59);
+    end.setSeconds(59);
+    end.setMilliseconds(999);
+    timeRanger[1] = end.getTime();
   }
-  timeRanger[0] = date.getTime()
+  timeRanger[0] = date.getTime();
 
-  return timeRanger
+  return timeRanger;
 }
 export function dateFormat(date, fmt) {
-  let ret
+  let ret;
   const opt = {
     'y+': date.getFullYear().toString(), // 年
     'M+': (date.getMonth() + 1).toString(), // 月
     'd+': date.getDate().toString(), // 日
     'H+': date.getHours().toString(), // 时
     'm+': date.getMinutes().toString(), // 分
-    's+': date.getSeconds().toString() // 秒
+    's+': date.getSeconds().toString(), // 秒
     // 有其他格式化字符需求可以继续添加，必须转化成字符串
-  }
+  };
   for (const k in opt) {
-    ret = new RegExp('(' + k + ')').exec(fmt)
+    ret = new RegExp('(' + k + ')').exec(fmt);
     if (ret) {
-      fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, '0')))
+      fmt = fmt.replace(ret[1], ret[1].length === 1 ? opt[k] : opt[k].padStart(ret[1].length, '0'));
     }
   }
-  return fmt
+  return fmt;
 }
 
 /**
@@ -70,20 +70,20 @@ export function dateFormat(date, fmt) {
  */
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
-    return null
+    return null;
   }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
+  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
+  let date;
   if (typeof time === 'object') {
-    date = time
+    date = time;
   } else {
-    if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
-      time = parseInt(time)
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
+      time = parseInt(time);
     }
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
-      time = time * 1000
+    if (typeof time === 'number' && time.toString().length === 10) {
+      time = time * 1000;
     }
-    date = new Date(time)
+    date = new Date(time);
   }
   const formatObj = {
     y: date.getFullYear(),
@@ -92,17 +92,17 @@ export function parseTime(time, cFormat) {
     h: date.getHours(),
     i: date.getMinutes(),
     s: date.getSeconds(),
-    a: date.getDay()
-  }
+    a: date.getDay(),
+  };
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
-    const value = formatObj[key]
+    const value = formatObj[key];
     // Note: getDay() returns 0 on Sunday
     if (key === 'a') {
-      return ['日', '一', '二', '三', '四', '五', '六'][value]
+      return ['日', '一', '二', '三', '四', '五', '六'][value];
     }
-    return value.toString().padStart(2, '0')
-  })
-  return time_str
+    return value.toString().padStart(2, '0');
+  });
+  return time_str;
 }
 
 /**
@@ -112,7 +112,7 @@ export function parseTime(time, cFormat) {
  * @returns {boolean}
  */
 export function hasClass(ele, cls) {
-  return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'))
+  return !!ele.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
 }
 
 /**
@@ -121,7 +121,7 @@ export function hasClass(ele, cls) {
  * @param {string} cls
  */
 export function addClass(ele, cls) {
-  if (!hasClass(ele, cls)) ele.className += ' ' + cls
+  if (!hasClass(ele, cls)) ele.className += ' ' + cls;
 }
 
 /**
@@ -131,8 +131,8 @@ export function addClass(ele, cls) {
  */
 export function removeClass(ele, cls) {
   if (hasClass(ele, cls)) {
-    const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)')
-    ele.className = ele.className.replace(reg, ' ')
+    const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+    ele.className = ele.className.replace(reg, ' ');
   }
 }
 
@@ -143,39 +143,31 @@ export function removeClass(ele, cls) {
  */
 export function formatTime(time, option) {
   if (('' + time).length === 10) {
-    time = parseInt(time) * 1000
+    time = parseInt(time) * 1000;
   } else {
-    time = +time
+    time = +time;
   }
-  const d = new Date(time)
-  const now = Date.now()
+  const d = new Date(time);
+  const now = Date.now();
 
-  const diff = (now - d) / 1000
+  const diff = (now - d) / 1000;
 
   if (diff < 30) {
-    return '刚刚'
+    return '刚刚';
   } else if (diff < 3600) {
     // less 1 hour
-    return Math.ceil(diff / 60) + '分钟前'
+    return Math.ceil(diff / 60) + '分钟前';
   } else if (diff < 3600 * 24) {
-    return Math.ceil(diff / 3600) + '小时前'
+    return Math.ceil(diff / 3600) + '小时前';
   } else if (diff < 3600 * 24 * 2) {
-    return '1天前'
+    return '1天前';
   }
   if (option) {
-    return parseTime(time, option)
+    return parseTime(time, option);
   } else {
     return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '时' +
-      d.getMinutes() +
-      '分'
-    )
+      d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
+    );
   }
 }
 
@@ -184,19 +176,19 @@ export function formatTime(time, option) {
  * @returns {Object}
  */
 export function param2Obj(url) {
-  const search = url.split('?')[1]
+  const search = url.split('?')[1];
   if (!search) {
-    return {}
+    return {};
   }
   return JSON.parse(
     '{"' +
-    decodeURIComponent(search)
-      .replace(/"/g, '\\"')
-      .replace(/&/g, '","')
-      .replace(/=/g, '":"')
-      .replace(/\+/g, ' ') +
-    '"}'
-  )
+      decodeURIComponent(search)
+        .replace(/"/g, '\\"')
+        .replace(/&/g, '","')
+        .replace(/=/g, '":"')
+        .replace(/\+/g, ' ') +
+      '"}'
+  );
 }
 
 // export function formatCondition(param) {
@@ -215,16 +207,16 @@ export function param2Obj(url) {
 
 export function formatCondition(param) {
   if (!param) {
-    return null
+    return null;
   }
   const result = {
-    conditions: []
-  }
+    conditions: [],
+  };
   // eslint-disable-next-line no-unused-vars
   for (const [key, value] of Object.entries(param)) {
-    result.conditions.push(value)
+    result.conditions.push(value);
   }
-  return result
+  return result;
 }
 /**
  * 驼峰转下划线
@@ -232,63 +224,65 @@ export function formatCondition(param) {
  * @returns
  */
 export function toLine(name) {
-  return name.replace(/([A-Z])/g, '_$1').toLowerCase()
+  return name.replace(/([A-Z])/g, '_$1').toLowerCase();
 }
 export function addOrder(order, orders) {
-  order.field = toLine(order.field)
+  order.field = toLine(order.field);
   if (order.value.startsWith('desc')) {
-    order.value = 'desc'
+    order.value = 'desc';
   } else {
-    order.value = 'asc'
+    order.value = 'asc';
   }
-  orders = orders || []
+  orders = orders || [];
   for (let index = 0; index < orders.length; index++) {
-    const element = orders[index]
+    const element = orders[index];
     if (order.field === element.field) {
-      orders[index] = order
-      return
+      orders[index] = order;
+      return;
     }
   }
-  orders.push(order)
+  orders.push(order);
 }
 
 export function formatOrders(orders) {
-  return orders.map(order => order.field + ' ' + order.value)
+  return orders.map((order) => order.field + ' ' + order.value);
 }
 
 export function formatQuickCondition(param, quickField) {
-  let quickObj = null
+  let quickObj = null;
   if (!param || !(quickObj = param.quick) || !quickField) {
-    quickObj && delete param.quick
-    return param
+    quickObj && delete param.quick;
+    return param;
   }
   param[quickField] = {
     field: quickField,
     operator: 'like',
-    value: quickObj.value
-  }
-  delete param.quick
-  return param
+    value: quickObj.value,
+  };
+  delete param.quick;
+  return param;
 }
 
 export function getQueryVariable(variable) {
-  let query = window.location.search.substring(1)
+  let query = window.location.search.substring(1);
   if (!query) {
-    query = Cookies.get(variable)
+    // query = Cookies.get(variable)
   }
   if (query !== undefined) {
-    const vars = query.split('&')
+    const vars = query.split('&');
     for (var i = 0; i < vars.length; i++) {
-      const pair = vars[i].split('=')
+      const pair = vars[i].split('=');
       if (pair[0] === variable) {
-        return pair[1]
+        return pair[1];
       }
     }
   }
-  return (false)
+  return false;
 }
 
 export function isMobile() {
-  const flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-  return flag
+  const flag = navigator.userAgent.match(
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+  );
+  return flag;
 }
